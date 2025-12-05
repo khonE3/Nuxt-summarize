@@ -28,24 +28,25 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
   
-  // CSS configuration
+  // CSS configuration - Use main.css for Tailwind + Nuxt UI
   css: [
-    '~/assets/css/main.scss'
+    '~/assets/css/main.css'
   ],
   
   // Modules
   modules: [
-    '@nuxt/fonts',
+    '@nuxt/ui',
     '@nuxt/image',
     '@pinia/nuxt',
     '@nuxt/eslint'
   ],
   
-  // Fonts configuration
-  fonts: {
-    families: [
-      { name: 'Inter', provider: 'google' }
-    ]
+  // Nuxt UI configuration
+  ui: {
+    fonts: false, // Already using @nuxt/fonts from Nuxt UI
+    theme: {
+      colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
+    }
   },
   
   // Image configuration

@@ -1,0 +1,211 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* ===== Custom Theme Variables ===== */
+:root {
+    /* Primary Colors - Nuxt Green */
+    --color-primary-50: #e6fff5;
+    --color-primary-100: #b3ffe3;
+    --color-primary-200: #80ffd1;
+    --color-primary-300: #4dffbf;
+    --color-primary-400: #1affad;
+    --color-primary-500: #00dc82;
+    --color-primary-600: #00b369;
+    --color-primary-700: #008a50;
+    --color-primary-800: #006137;
+    --color-primary-900: #00381e;
+    --color-primary-950: #001f11;
+
+    /* Modern Design Tokens */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #00dc82 0%, #003c3c 100%);
+    --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+
+    /* Animation Durations */
+    --duration-fast: 150ms;
+    --duration-normal: 300ms;
+    --duration-slow: 500ms;
+}
+
+/* Dark Mode */
+.dark {
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --gradient-card: linear-gradient(145deg, rgba(51, 65, 85, 0.9) 0%, rgba(30, 41, 59, 0.6) 100%);
+}
+
+/* ===== Modern Animations ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(0, 220, 130, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(0, 220, 130, 0.4);
+    }
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ===== Glassmorphism Utilities ===== */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 300ms ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+}
+
+/* ===== Animated Gradient Background ===== */
+.gradient-animated {
+    background: linear-gradient(-45deg, #00dc82, #003c3c, #00b369, #006147);
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+}
+
+/* ===== Modern Button Hover Effects ===== */
+.btn-modern {
+    position: relative;
+    overflow: hidden;
+    transition: all var(--duration-normal) ease;
+}
+
+.btn-modern::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-modern:hover::after {
+    width: 300%;
+    height: 300%;
+}
+
+/* ===== Card Hover Animations ===== */
+.card-hover {
+    transition: all var(--duration-normal) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px -12px rgba(0, 220, 130, 0.25);
+}
+
+/* ===== Responsive Typography ===== */
+.text-responsive-xl {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.text-responsive-lg {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.text-responsive-md {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+/* ===== Page Transitions ===== */
+.page-enter-active,
+.page-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.page-enter-from {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.page-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* ===== Layout Transitions ===== */
+.layout-enter-active,
+.layout-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.layout-enter-from,
+.layout-leave-to {
+    opacity: 0;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 220, 130, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 220, 130, 0.5);
+}
+
+/* ===== Selection ===== */
+::selection {
+    background: rgba(0, 220, 130, 0.3);
+    color: inherit;
+}

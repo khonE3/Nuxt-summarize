@@ -1,7 +1,9 @@
 <template>
   <div class="loading-spinner">
-    <div class="spinner"></div>
-    <p v-if="message">{{ message }}</p>
+    <div class="spinner-container">
+      <UProgress animation="carousel" color="primary" size="sm" />
+      <p v-if="message" class="spinner-message">{{ message }}</p>
+    </div>
   </div>
 </template>
 
@@ -11,32 +13,27 @@ defineProps<{
 }>()
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .loading-spinner {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  
-  .spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid var(--border-color);
-    border-top-color: var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  p {
-    margin-top: 1rem;
-    color: var(--text-muted);
-  }
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.spinner-message {
+  color: var(--color-neutral-500);
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
 }
 </style>

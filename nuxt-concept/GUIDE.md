@@ -4,61 +4,56 @@
 
 1. [คำสั่งพื้นฐาน](#คำสั่งพื้นฐาน)
 2. [โครงสร้างโฟลเดอร์](#โครงสร้างโฟลเดอร์)
-3. [การสร้าง Components](#การสร้าง-components)
-4. [การสร้าง Pages](#การสร้าง-pages)
-5. [การสร้าง API](#การสร้าง-api)
-6. [Composables](#composables)
-7. [Middleware](#middleware)
-8. [State Management](#state-management)
-9. [Styling](#styling)
-10. [Deployment](#deployment)
+3. [Nuxt UI Components](#nuxt-ui-components)
+4. [การสร้าง Components](#การสร้าง-components)
+5. [การสร้าง Pages](#การสร้าง-pages)
+6. [การสร้าง API](#การสร้าง-api)
+7. [Composables](#composables)
+8. [Middleware](#middleware)
+9. [State Management](#state-management)
+10. [Styling](#styling)
+11. [Deployment](#deployment)
 
 ## 🚀 คำสั่งพื้นฐาน
 
 ### ติดตั้ง Dependencies
 ```bash
-# ใช้ npm
-npm install
-
-# ใช้ yarn
-yarn install
-
-# ใช้ pnpm
-pnpm install
-
-# ใช้ bun
+# ใช้ bun (แนะนำ)
 bun install
+
+# หรือใช้ npm
+npm install
 ```
 
 ### เริ่มต้น Development Server
 ```bash
-npm run dev
+bun run dev
 # Server จะรันที่ http://localhost:3000
 ```
 
 ### Build สำหรับ Production
 ```bash
-npm run build
+bun run build
 ```
 
 ### Preview Production Build
 ```bash
-npm run preview
+bun run preview
 ```
 
 ### Generate Static Site
 ```bash
-npm run generate
+bun run generate
 ```
 
 ### Type Check
 ```bash
-npm run typecheck
+bun run typecheck
 ```
 
 ### Cleanup
 ```bash
-npm run cleanup
+bun run cleanup
 ```
 
 ## 📁 โครงสร้างโฟลเดอร์
@@ -82,6 +77,202 @@ nuxt-concept/
 ├── nuxt.config.ts        # Nuxt configuration
 ├── tsconfig.json         # TypeScript config
 └── package.json          # Dependencies
+```
+
+## 🎯 Nuxt UI Components
+
+โปรเจคนี้ใช้ **Nuxt UI v4** สำหรับ UI components สมัยใหม่
+
+### 1. ติดตั้ง Nuxt UI
+
+```bash
+bun add @nuxt/ui tailwindcss
+bun add -D @iconify-json/heroicons @iconify-json/simple-icons
+```
+
+### 2. Configuration
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+  ui: {
+    fonts: false,
+    theme: {
+      colors: ['primary', 'secondary', 'success', 'error']
+    }
+  }
+})
+```
+
+```css
+/* app/assets/css/main.css */
+@import "tailwindcss";
+@import "@nuxt/ui";
+```
+
+### 3. UApp Wrapper
+
+```vue
+<!-- app/app.vue -->
+<template>
+  <UApp>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
+</template>
+```
+
+### 4. UButton
+
+```vue
+<template>
+  <!-- Basic buttons -->
+  <UButton color="primary">Primary</UButton>
+  <UButton color="neutral" variant="outline">Outline</UButton>
+  <UButton color="error" variant="soft">Soft</UButton>
+  
+  <!-- With icon -->
+  <UButton icon="i-heroicons-shopping-cart-20-solid">
+    Add to Cart
+  </UButton>
+  
+  <!-- Loading state -->
+  <UButton :loading="isLoading" @click="submit">
+    Submit
+  </UButton>
+</template>
+```
+
+### 5. UCard
+
+```vue
+<template>
+  <UCard 
+    class="card-hover"
+    :ui="{ body: 'p-6' }"
+  >
+    <template #header>
+      <h3>Card Title</h3>
+    </template>
+    
+    <p>Card content goes here</p>
+    
+    <template #footer>
+      <UButton>Action</UButton>
+    </template>
+  </UCard>
+</template>
+```
+
+### 6. Form Components
+
+```vue
+<template>
+  <form @submit.prevent="handleSubmit">
+    <UFormField label="ชื่อ" required>
+      <UInput 
+        v-model="form.name" 
+        placeholder="กรอกชื่อ"
+        size="lg"
+      />
+    </UFormField>
+    
+    <UFormField label="ข้อความ">
+      <UTextarea 
+        v-model="form.message" 
+        :rows="5"
+      />
+    </UFormField>
+    
+    <UButton type="submit" block>
+      ส่งข้อมูล
+    </UButton>
+  </form>
+</template>
+```
+
+### 7. Toast Notifications
+
+```vue
+<script setup>
+const toast = useToast()
+
+const showSuccess = () => {
+  toast.add({
+    title: 'สำเร็จ!',
+    description: 'บันทึกข้อมูลเรียบร้อย',
+    color: 'success',
+    icon: 'i-heroicons-check-circle'
+  })
+}
+
+const showError = () => {
+  toast.add({
+    title: 'เกิดข้อผิดพลาด',
+    color: 'error',
+    icon: 'i-heroicons-x-circle'
+  })
+}
+</script>
+```
+
+### 8. Mobile Drawer (USlideover)
+
+```vue
+<template>
+  <UButton @click="isOpen = true">
+    Open Menu
+  </UButton>
+  
+  <USlideover v-model:open="isOpen" side="right">
+    <template #content>
+      <nav class="p-4">
+        <NuxtLink to="/">Home</NuxtLink>
+        <NuxtLink to="/about">About</NuxtLink>
+      </nav>
+    </template>
+  </USlideover>
+</template>
+
+<script setup>
+const isOpen = ref(false)
+</script>
+```
+
+### 9. Icons
+
+```vue
+<template>
+  <!-- Heroicons -->
+  <UIcon name="i-heroicons-home-20-solid" />
+  <UIcon name="i-heroicons-shopping-cart" />
+  
+  <!-- Simple Icons (brands) -->
+  <UIcon name="i-simple-icons-github" />
+  <UIcon name="i-simple-icons-facebook" />
+</template>
+```
+
+### 10. Dark Mode Toggle
+
+```vue
+<script setup>
+const colorMode = useColorMode()
+
+const toggleDark = () => {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+</script>
+
+<template>
+  <UButton 
+    :icon="colorMode.value === 'dark' ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
+    @click="toggleDark"
+  />
+</template>
 ```
 
 ## 🎨 การสร้าง Components
@@ -686,7 +877,7 @@ const isActive = ref(false)
 
 ```bash
 # ติดตั้ง Vercel CLI
-npm i -g vercel
+bun add -g vercel
 
 # Deploy
 vercel
@@ -696,7 +887,7 @@ vercel
 
 ```bash
 # Build
-npm run generate
+bun run generate
 
 # Deploy folder: .output/public
 ```
@@ -705,24 +896,29 @@ npm run generate
 
 ```bash
 # Build
-npm run build
+bun run build
 
 # Run
 node .output/server/index.mjs
 ```
 
-### 4. Docker
+### 4. Docker (with Bun)
 
 ```dockerfile
-FROM node:18-alpine
+FROM oven/bun:1.0 AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 COPY . .
-RUN npm run build
+RUN bun run build
+
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+COPY --from=builder /app/.output .output
 
 EXPOSE 3000
 

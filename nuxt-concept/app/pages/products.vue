@@ -1,42 +1,76 @@
 <template>
   <div class="products-page">
     <div class="container">
-      <h1 class="page-title">สินค้าของเรา</h1>
+      <h1 class="page-title text-responsive-lg">สินค้าของเรา</h1>
       
-      <div class="filters">
+      <!-- Filters -->
+      <div class="filters-section">
         <div class="search-box">
-          <input
+          <UInput
             v-model="searchQuery"
-            type="text"
             placeholder="ค้นหาสินค้า..."
-            class="search-input"
-          />
+            size="lg"
+            :ui="{ wrapper: 'w-full' }"
+          >
+            <template #leading>
+              <UIcon name="i-heroicons-magnifying-glass-20-solid" class="text-neutral-400" />
+            </template>
+            <template #trailing v-if="searchQuery">
+              <UButton
+                color="neutral"
+                variant="link"
+                size="xs"
+                icon="i-heroicons-x-mark-20-solid"
+                @click="searchQuery = ''"
+              />
+            </template>
+          </UInput>
         </div>
         
         <div class="filter-buttons">
-          <button
+          <UButton
             v-for="category in categories"
             :key="category"
-            :class="['filter-btn', { active: selectedCategory === category }]"
+            :color="selectedCategory === category ? 'primary' : 'neutral'"
+            :variant="selectedCategory === category ? 'solid' : 'outline'"
+            size="md"
             @click="selectedCategory = category"
           >
             {{ category }}
-          </button>
+          </UButton>
         </div>
       </div>
       
+      <!-- Loading State -->
       <div v-if="pending" class="loading-container">
-        <LoadingSpinner message="กำลังโหลดสินค้า..." />
+        <div class="skeleton-grid">
+          <USkeleton v-for="n in 6" :key="n" class="skeleton-card" />
+        </div>
       </div>
       
+      <!-- Error State -->
       <div v-else-if="error" class="error-container">
-        <p>เกิดข้อผิดพลาด: {{ error.message }}</p>
-        <button @click="() => refresh()" class="btn btn-primary">ลองอีกครั้ง</button>
+        <UIcon name="i-heroicons-exclamation-triangle" class="error-icon" />
+        <p class="error-message">เกิดข้อผิดพลาด: {{ error.message }}</p>
+        <UButton color="primary" @click="refresh">
+          <UIcon name="i-heroicons-arrow-path" class="mr-2" />
+          ลองอีกครั้ง
+        </UButton>
       </div>
       
+      <!-- Products Grid -->
       <div v-else>
         <div v-if="filteredProducts.length === 0" class="empty-state">
-          <p>ไม่พบสินค้าที่ค้นหา</p>
+          <UIcon name="i-heroicons-shopping-bag" class="empty-icon" />
+          <p class="empty-text">ไม่พบสินค้าที่ค้นหา</p>
+          <UButton 
+            v-if="searchQuery || selectedCategory !== 'ทั้งหมด'"
+            color="primary"
+            variant="soft"
+            @click="resetFilters"
+          >
+            ล้างตัวกรอง
+          </UButton>
         </div>
         
         <div v-else class="products-grid">
@@ -45,6 +79,11 @@
             :key="product.id"
             :product="product"
           />
+        </div>
+        
+        <!-- Results Count -->
+        <div v-if="filteredProducts.length > 0" class="results-info">
+          <p>แสดง {{ filteredProducts.length }} รายการ</p>
         </div>
       </div>
     </div>
@@ -87,118 +126,162 @@ const filteredProducts = computed(() => {
   
   return filtered
 })
+
+const resetFilters = () => {
+  searchQuery.value = ''
+  selectedCategory.value = 'ทั้งหมด'
+}
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .products-page {
   padding: 2rem 0;
-  
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  
-  .page-title {
-    font-size: 3rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--text-color);
-  }
-  
-  .filters {
-    margin-bottom: 3rem;
-    
-    .search-box {
-      margin-bottom: 1.5rem;
-      
-      .search-input {
-        width: 100%;
-        padding: 1rem 1.5rem;
-        border: 2px solid var(--border-color);
-        border-radius: 50px;
-        font-size: 1rem;
-        background: var(--input-bg);
-        color: var(--text-color);
-        transition: border-color 0.3s;
-        
-        &:focus {
-          outline: none;
-          border-color: var(--primary-color);
-        }
-        
-        &::placeholder {
-          color: var(--text-muted);
-        }
-      }
-    }
-    
-    .filter-buttons {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      
-      .filter-btn {
-        padding: 0.75rem 1.5rem;
-        border: 2px solid var(--border-color);
-        border-radius: 50px;
-        background: var(--card-bg);
-        color: var(--text-color);
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        
-        &:hover {
-          border-color: var(--primary-color);
-          color: var(--primary-color);
-        }
-        
-        &.active {
-          background: var(--primary-color);
-          border-color: var(--primary-color);
-          color: white;
-        }
-      }
-    }
-  }
-  
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .loading-container,
-  .error-container,
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    
-    p {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-    }
+    padding: 0 1.5rem;
   }
 }
 
-.btn {
-  padding: 0.75rem 2rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  
-  &.btn-primary {
-    background: var(--primary-color);
-    color: white;
-    
-    &:hover {
-      background: var(--primary-hover);
-    }
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 2rem;
   }
+}
+
+.page-title {
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--color-neutral-900);
+}
+
+.dark .page-title {
+  color: var(--color-neutral-100);
+}
+
+/* Filters */
+.filters-section {
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  margin-bottom: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Skeleton */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeleton-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.skeleton-card {
+  height: 380px;
+  border-radius: 1rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-icon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--color-neutral-300);
+  margin: 0 auto 1rem;
+}
+
+.dark .empty-icon {
+  color: var(--color-neutral-600);
+}
+
+.empty-text {
+  font-size: 1.125rem;
+  color: var(--color-neutral-500);
+  margin-bottom: 1.5rem;
+}
+
+/* Error State */
+.error-container {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.error-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-error-500);
+  margin: 0 auto 1rem;
+}
+
+.error-message {
+  font-size: 1rem;
+  color: var(--color-neutral-500);
+  margin-bottom: 1.5rem;
+}
+
+/* Results Info */
+.results-info {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.dark .results-info {
+  border-top-color: var(--color-neutral-700);
+}
+
+.results-info p {
+  color: var(--color-neutral-500);
+  font-size: 0.9rem;
 }
 </style>
