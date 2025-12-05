@@ -78,7 +78,8 @@ const toggleWishlist = () => {
   background: var(--card-bg);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
   transition: transform 0.3s, box-shadow 0.3s;
   
   &:hover {

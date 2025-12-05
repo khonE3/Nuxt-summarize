@@ -161,7 +161,7 @@ const stats = {
   }
   
   .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #00dc82 0%, #003c3c 100%);
     padding: 6rem 0;
     text-align: center;
     position: relative;
@@ -236,6 +236,8 @@ const stats = {
         padding: 2rem;
         background: var(--card-bg);
         border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-card);
         transition: transform 0.3s, box-shadow 0.3s;
         
         &:hover {
@@ -291,6 +293,8 @@ const stats = {
         padding: 2rem;
         background: var(--card-bg);
         border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-card);
         
         .stat-value {
           font-size: 3rem;
@@ -329,7 +333,7 @@ const stats = {
     &:hover {
       background: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 220, 130, 0.4);
     }
   }
   

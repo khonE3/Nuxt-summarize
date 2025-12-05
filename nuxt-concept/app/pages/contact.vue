@@ -199,6 +199,8 @@ const handleSubmit = async () => {
       padding: 1.5rem;
       background: var(--card-bg);
       border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-card);
       
       .icon {
         font-size: 2rem;
@@ -276,7 +278,7 @@ const handleSubmit = async () => {
           &:hover:not(:disabled) {
             background: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 12px rgba(0, 220, 130, 0.4);
           }
           
           &:disabled {

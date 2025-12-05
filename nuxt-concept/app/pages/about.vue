@@ -152,6 +152,8 @@ const projectFeatures = [
         padding: 1.5rem;
         border-radius: 12px;
         text-align: center;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-card);
         transition: transform 0.3s, box-shadow 0.3s;
         
         &:hover {
@@ -207,7 +209,9 @@ const projectFeatures = [
       background: var(--card-bg);
       padding: 2rem;
       border-radius: 12px;
+      border: 1px solid var(--border-color);
       border-left: 4px solid var(--primary-color);
+      box-shadow: var(--shadow-card);
     }
   }
 }
