@@ -1,0 +1,34 @@
+{
+  "name": "nuxt-concept",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Nuxt 4 Complete Example Project with All Features",
+  "author": "Your Name",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "typecheck": "nuxt typecheck",
+    "cleanup": "nuxt cleanup"
+  },
+  "dependencies": {
+    "@nuxt/fonts": "^0.10.2",
+    "@nuxt/image": "^1.8.1",
+    "@pinia/nuxt": "^0.7.0",
+    "nuxt": "^4.2.1",
+    "pinia": "^2.3.0",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^0.7.4",
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2",
+    "vue-tsc": "^2.1.10",
+    "sass": "^1.83.0"
+  }
+}
