@@ -1,30 +1,99 @@
 <template>
   <div class="home-page">
     <!-- Hero Section -->
-    <section class="hero gradient-animated">
-      <div class="hero-content container">
-        <h1 class="hero-title text-responsive-xl">
-          ยินดีต้อนรับสู่ <span class="highlight">Nuxt 4</span>
-        </h1>
-        <p class="hero-subtitle">
-          โปรเจคตัวอย่างที่แสดงฟีเจอร์ครบถ้วนของ Nuxt 4 เวอร์ชันล่าสุด
-        </p>
-        <div class="hero-actions">
-          <UButton to="/products" size="xl" color="white" class="btn-modern">
-            <UIcon name="i-heroicons-shopping-bag-20-solid" class="mr-2" />
-            ดูสินค้า
-          </UButton>
-          <UButton to="/about" size="xl" variant="outline" color="white">
-            เกี่ยวกับเรา
-          </UButton>
-        </div>
+    <!-- Hero Section -->
+    <section class="hero gradient-animated min-h-[85vh] flex items-center relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="hero-bg-elements absolute inset-0 pointer-events-none">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
       </div>
 
-      <!-- Decorative Elements -->
-      <div class="hero-decoration">
-        <div class="decoration-circle circle-1"></div>
-        <div class="decoration-circle circle-2"></div>
-        <div class="decoration-circle circle-3"></div>
+      <div class="container relative z-10 grid lg:grid-cols-2 gap-12 items-center w-full">
+        <!-- Hero Content (Left) -->
+        <div class="hero-text text-center lg:text-left space-y-8 animate-fade-in-up">
+          <UBadge variant="solid" color="neutral" size="lg"
+            class="mb-4 text-primary-600 font-bold px-4 py-2 rounded-full shadow-lg">
+            <UIcon name="i-heroicons-sparkles-solid" class="mr-2" />
+            เปิดตัว Nuxt 4.2.1
+          </UBadge>
+
+          <h1 class="text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight drop-shadow-lg">
+            ยินดีต้อนรับสู่ <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-emerald-100 relative">
+              Nuxt 4
+              <svg class="absolute -bottom-2 left-0 w-full h-3 text-green-400 opacity-50" viewBox="0 0 100 10"
+                preserveAspectRatio="none">
+                <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="4" fill="none" />
+              </svg>
+            </span>
+          </h1>
+
+          <p class="text-xl text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light drop-shadow-md">
+            โปรเจคตัวอย่างที่แสดงฟีเจอร์ครบถ้วนของ Nuxt 4 เวอร์ชันล่าสุด พร้อมดีไซน์ที่สวยงามและทันสมัย
+            รองรับทุกการใช้งาน
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-6">
+            <UButton to="/products" size="xl" color="neutral" variant="solid"
+              class="px-8 py-4 font-bold rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 text-primary-600">
+              <UIcon name="i-heroicons-shopping-bag-solid" class="mr-2 text-2xl" />
+              ดูสินค้า
+            </UButton>
+            <UButton to="/about" size="xl" variant="outline" color="neutral"
+              class="px-8 py-4 font-semibold rounded-full hover:bg-white/10 backdrop-blur-sm border-2 border-white/50 hover:border-white transition-all duration-300">
+              <UIcon name="i-heroicons-information-circle-solid" class="mr-2 text-2xl" />
+              เกี่ยวกับเรา
+            </UButton>
+          </div>
+        </div>
+
+        <!-- Hero Visual (Right) -->
+        <div class="hidden lg:block relative perspective-container">
+          <div class="hero-visual-wrapper relative w-full h-[500px] flex items-center justify-center">
+
+            <!-- Main Glass Card -->
+            <div
+              class="glass-card-3d relative w-[80%] h-[70%] bg-gradient-to-br from-white/20 to-white/5 border border-white/30 rounded-3xl backdrop-blur-xl shadow-2xl p-8 flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <div class="p-3 bg-white/20 rounded-2xl">
+                  <UIcon name="i-simple-icons-nuxtdotjs" class="text-5xl text-white" />
+                </div>
+                <UBadge color="neutral" variant="solid" class="text-primary-600 font-bold">Latest</UBadge>
+              </div>
+
+              <div class="space-y-4 my-8">
+                <div class="h-3 bg-white/20 rounded-full w-3/4 animate-pulse"></div>
+                <div class="h-3 bg-white/10 rounded-full w-1/2"></div>
+                <div class="h-3 bg-white/10 rounded-full w-full"></div>
+              </div>
+
+              <div class="flex items-center gap-4 mt-auto">
+                <div
+                  class="w-12 h-12 rounded-full bg-gradient-to-tr from-green-400 to-emerald-600 flex items-center justify-center shadow-lg">
+                  <UIcon name="i-heroicons-check-solid" class="text-white text-xl" />
+                </div>
+                <div class="text-white">
+                  <div class="font-bold text-lg">Optimized</div>
+                  <div class="text-sm opacity-80">100/100 Lighthouse</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Elements -->
+            <div
+              class="floating-icon icon-1 absolute -top-5 -right-5 p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
+              <UIcon name="i-heroicons-bolt-solid" class="text-5xl text-yellow-300" />
+            </div>
+            <div
+              class="floating-icon icon-2 absolute bottom-10 -left-10 p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
+              <UIcon name="i-heroicons-code-bracket-solid" class="text-5xl text-blue-300" />
+            </div>
+
+            <!-- Glow Effect -->
+            <div class="absolute inset-0 bg-primary-500/20 blur-[100px] -z-10 rounded-full"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -60,7 +129,7 @@
         <div v-else-if="error" class="error-container">
           <UIcon name="i-heroicons-exclamation-triangle" class="error-icon" />
           <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-          <UButton color="primary" @click="refresh">ลองอีกครั้ง</UButton>
+          <UButton color="primary" @click="() => refresh()">ลองอีกครั้ง</UButton>
         </div>
 
         <div v-else class="products-grid">
@@ -162,6 +231,77 @@ const stats = [
 </script>
 
 <style scoped>
+/* Hero 3D & Animations */
+.perspective-container {
+  perspective: 1200px;
+}
+
+.hero-visual-wrapper {
+  transform-style: preserve-3d;
+}
+
+.glass-card-3d {
+  transform: rotateY(-15deg) rotateX(10deg);
+  transition: transform 0.5s ease-out;
+  transform-style: preserve-3d;
+}
+
+.hero-visual-wrapper:hover .glass-card-3d {
+  transform: rotateY(-5deg) rotateX(5deg) scale(1.02);
+}
+
+.floating-icon {
+  animation: float 6s ease-in-out infinite;
+  z-index: 20;
+}
+
+.icon-1 {
+  animation-delay: 0s;
+}
+
+.icon-2 {
+  animation-delay: 3s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.hero-bg-elements .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: pulse-glow 8s infinite alternate;
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  top: -100px;
+  left: -200px;
+}
+
+.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(0, 220, 130, 0.2);
+  bottom: -100px;
+  right: -100px;
+  animation-delay: 4s;
+}
+
 /* Container */
 .container {
   max-width: 1280px;
