@@ -43,20 +43,20 @@
               </UFormField>
 
               <UFormField label="เบอร์โทรศัพท์" name="phone" class="mb-5">
-                <UInput v-model="form.phone" type="tel" placeholder="08x-xxx-xxxx" size="lg" color="gray"
+                <UInput v-model="form.phone" type="tel" placeholder="08x-xxx-xxxx" size="lg" color="neutral"
                   variant="outline" :ui="{ root: 'bg-white dark:bg-gray-900' }" :disabled="isSubmitting"
                   class="w-full" />
               </UFormField>
 
               <UFormField label="หัวข้อ" required name="subject" class="mb-5">
-                <UInput v-model="form.subject" placeholder="หัวข้อที่ต้องการติดต่อ" size="lg" color="gray"
+                <UInput v-model="form.subject" placeholder="หัวข้อที่ต้องการติดต่อ" size="lg" color="neutral"
                   variant="outline" :ui="{ root: 'bg-white dark:bg-gray-900' }" :disabled="isSubmitting"
                   class="w-full" />
               </UFormField>
 
               <UFormField label="ข้อความ" required name="message" class="mb-6">
                 <UTextarea v-model="form.message" :rows="5" placeholder="กรอกข้อความที่ต้องการติดต่อ" size="lg"
-                  color="gray" variant="outline" :ui="{ root: 'bg-white dark:bg-gray-900' }" :disabled="isSubmitting"
+                  color="neutral" variant="outline" :ui="{ root: 'bg-white dark:bg-gray-900' }" :disabled="isSubmitting"
                   class="w-full" />
               </UFormField>
 
@@ -170,138 +170,7 @@ const handleSubmit = async () => {
 
 @media (min-width: 640px) {
   .container {
-<<<<<<< HEAD
     padding: 0 1.5rem;
-=======
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  
-  .page-title {
-    font-size: 3rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--text-color);
-  }
-  
-  .contact-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    
-    @media (max-width: 968px) {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-    
-    h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 2rem;
-      color: var(--text-color);
-    }
-  }
-  
-  .contact-info {
-    .info-item {
-      display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      padding: 1.5rem;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-card);
-      
-      .icon {
-        font-size: 2rem;
-        flex-shrink: 0;
-      }
-      
-      h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: var(--text-color);
-      }
-      
-      p {
-        color: var(--text-muted);
-        margin-bottom: 0.25rem;
-      }
-    }
-  }
-  
-  .contact-form-container {
-    .contact-form {
-      .form-group {
-        margin-bottom: 1.5rem;
-        
-        label {
-          display: block;
-          margin-bottom: 0.5rem;
-          font-weight: 600;
-          color: var(--text-color);
-        }
-        
-        input,
-        textarea {
-          width: 100%;
-          padding: 0.875rem 1rem;
-          border: 2px solid var(--border-color);
-          border-radius: 8px;
-          font-size: 1rem;
-          background: var(--input-bg);
-          color: var(--text-color);
-          transition: border-color 0.3s;
-          font-family: inherit;
-          
-          &:focus {
-            outline: none;
-            border-color: var(--primary-color);
-          }
-          
-          &::placeholder {
-            color: var(--text-muted);
-          }
-        }
-        
-        textarea {
-          resize: vertical;
-          min-height: 120px;
-        }
-      }
-      
-      .btn {
-        width: 100%;
-        padding: 1rem 2rem;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.125rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        
-        &.btn-primary {
-          background: var(--primary-color);
-          color: white;
-          
-          &:hover:not(:disabled) {
-            background: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 220, 130, 0.4);
-          }
-          
-          &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-          }
-        }
-      }
-    }
->>>>>>> 598b56273790ddcad2e13838d2da1af603b02db8
   }
 }
 
