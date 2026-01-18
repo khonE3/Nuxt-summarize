@@ -1,287 +1,123 @@
 <template>
-  <div class="products-page">
-    <div class="container">
-      <h1 class="page-title text-responsive-lg">สินค้าของเรา</h1>
-      
-      <!-- Filters -->
-      <div class="filters-section">
-        <div class="search-box">
-          <UInput
-            v-model="searchQuery"
-            placeholder="ค้นหาสินค้า..."
-            size="lg"
-            :ui="{ wrapper: 'w-full' }"
-          >
-            <template #leading>
-              <UIcon name="i-heroicons-magnifying-glass-20-solid" class="text-neutral-400" />
-            </template>
-            <template #trailing v-if="searchQuery">
-              <UButton
-                color="neutral"
-                variant="link"
-                size="xs"
-                icon="i-heroicons-x-mark-20-solid"
-                @click="searchQuery = ''"
-              />
+  <div class="products-page pb-20">
+    <!-- Header -->
+    <section class="py-12 text-center relative z-10">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold mb-4">สินค้าของเรา</h1>
+        <p class="text-muted max-w-2xl mx-auto">เลือกช้อปสินค้าคุณภาพสูงที่เราคัดสรรมาเพื่อคุณโดยเฉพาะ</p>
+      </div>
+    </section>
+
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6">
+      <!-- Search & Filter Bar -->
+      <div class="card-crystal mb-8 sticky top-20 z-30 flex flex-col md:flex-row gap-4 items-center justify-between">
+        <!-- Search -->
+        <div class="w-full md:w-96">
+          <UInput v-model="searchQuery" icon="i-heroicons-magnifying-glass-20-solid" placeholder="ค้นหาสินค้า..."
+            size="lg" :ui="{ icon: { trailing: { pointer: '' } } }" class="input-premium w-full">
+            <template #trailing>
+              <UButton v-show="searchQuery !== ''" color="gray" variant="link" icon="i-heroicons-x-mark-20-solid"
+                :padded="false" @click="searchQuery = ''" />
             </template>
           </UInput>
         </div>
-        
-        <div class="filter-buttons">
-          <UButton
-            v-for="category in categories"
-            :key="category"
-            :color="selectedCategory === category ? 'primary' : 'neutral'"
-            :variant="selectedCategory === category ? 'solid' : 'outline'"
-            size="md"
-            @click="selectedCategory = category"
-          >
-            {{ category }}
+
+        <!-- Filter -->
+        <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
+          <UButton v-for="cat in categories" :key="cat" :color="selectedCategory === cat ? 'primary' : 'white'"
+            :variant="selectedCategory === cat ? 'solid' : 'ghost'" size="md" class="rounded-full whitespace-nowrap"
+            @click="selectedCategory = cat">
+            {{ cat }}
           </UButton>
         </div>
       </div>
-      
+
       <!-- Loading State -->
-      <div v-if="pending" class="loading-container">
-        <div class="skeleton-grid">
-          <USkeleton v-for="n in 6" :key="n" class="skeleton-card" />
+      <div v-if="status === 'pending'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div v-for="n in 8" :key="n" class="card-crystal h-[400px] animate-pulse">
+          <div class="bg-gray-200 dark:bg-gray-700 h-48 rounded-lg mb-4"></div>
+          <div class="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
+          <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
         </div>
       </div>
-      
+
       <!-- Error State -->
-      <div v-else-if="error" class="error-container">
-        <UIcon name="i-heroicons-exclamation-triangle" class="error-icon" />
-        <p class="error-message">เกิดข้อผิดพลาด: {{ error.message }}</p>
-        <UButton color="primary" @click="refresh">
-          <UIcon name="i-heroicons-arrow-path" class="mr-2" />
-          ลองอีกครั้ง
-        </UButton>
+      <div v-else-if="status === 'error'" class="text-center py-20">
+        <UIcon name="i-heroicons-exclamation-triangle" class="text-6xl text-red-500 mb-4" />
+        <h3 class="text-2xl font-bold mb-2">เกิดข้อผิดพลาด</h3>
+        <p class="text-muted mb-6">ไม่สามารถโหลดข้อมูลสินค้าได้</p>
+        <UButton color="primary" @click="refresh">ลองใหม่อีกครั้ง</UButton>
       </div>
-      
+
+      <!-- Empty State -->
+      <div v-else-if="filteredProducts.length === 0" class="text-center py-20 card-crystal">
+        <UIcon name="i-heroicons-magnifying-glass" class="text-6xl text-gray-400 mb-4" />
+        <h3 class="text-xl font-bold text-muted">ไม่พบสินค้าที่คุณค้นหา</h3>
+      </div>
+
       <!-- Products Grid -->
-      <div v-else>
-        <div v-if="filteredProducts.length === 0" class="empty-state">
-          <UIcon name="i-heroicons-shopping-bag" class="empty-icon" />
-          <p class="empty-text">ไม่พบสินค้าที่ค้นหา</p>
-          <UButton 
-            v-if="searchQuery || selectedCategory !== 'ทั้งหมด'"
-            color="primary"
-            variant="soft"
-            @click="resetFilters"
-          >
-            ล้างตัวกรอง
-          </UButton>
-        </div>
-        
-        <div v-else class="products-grid">
-          <ProductCard
-            v-for="product in filteredProducts"
-            :key="product.id"
-            :product="product"
-          />
-        </div>
-        
-        <!-- Results Count -->
-        <div v-if="filteredProducts.length > 0" class="results-info">
-          <p>แสดง {{ filteredProducts.length }} รายการ</p>
-        </div>
+      <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" class="animate-enter" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-useSeoMeta({
-  title: 'สินค้า - Nuxt 4 Demo',
-  description: 'ดูสินค้าทั้งหมดของเรา',
-  ogTitle: 'สินค้า - Nuxt 4 Demo',
+// Use AsyncData with Lazy Loading to prevent blocking navigation
+const { data: products, status, refresh } = await useAsyncData('products', async () => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 800))
+  // Mock Data
+  return [
+    { id: 1, name: 'Nuxt 4 Starter Kit', description: 'เทมเพลตเริ่มต้นสำหรับโปรเจค Nuxt 4 พร้อมใช้งานทันที', price: 0, image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80', isNew: true, category: 'Template' },
+    { id: 2, name: 'Premium Dashboard', description: 'หน้า Dashboard Admin สวยงาม ทันสมัย รองรับ Dark Mode', price: 2500, image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80', discount: 20, category: 'Template' },
+    { id: 3, name: 'E-Commerce UI Kit', description: 'ชุด UI สำหรับร้านค้าออนไลน์ ครบครันทุกฟังก์ชัน', price: 1800, image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80', category: 'UI Kit' },
+    { id: 4, name: 'SEO Optimization Service', description: 'บริการปรับแต่งเว็บไซต์ให้ติดอันดับ Google หน้าแรก', price: 5000, image: 'https://images.unsplash.com/photo-1572177812156-58036aae439c?auto=format&fit=crop&w=800&q=80', category: 'Service' },
+    { id: 5, name: 'Mobile App Design', description: 'ออกแบบ UX/UI สำหรับแอปพลิเคชันมือถือ iOS และ Android', price: 3500, image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80', category: 'Service' },
+    { id: 6, name: 'Vue 3 Masterclass', description: 'คอร์สเรียน Vue 3 เจาะลึกตั้งแต่พื้นฐานจนถึงระดับสูง', price: 1200, image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=800&q=80', isNew: true, category: 'Course' },
+  ]
+}, {
+  lazy: true, // Key fix for "Content loading issue"
+  default: () => []
 })
 
 const searchQuery = ref('')
 const selectedCategory = ref('ทั้งหมด')
-
-const categories = ['ทั้งหมด', 'อิเล็กทรอนิกส์', 'แฟชั่น', 'บ้านและสวน', 'กีฬา']
-
-// ดึงข้อมูลสินค้า
-const { data: products, pending, error, refresh } = await useApi<any[]>('/api/products')
+const categories = ['ทั้งหมด', 'Template', 'UI Kit', 'Service', 'Course']
 
 const filteredProducts = computed(() => {
-  if (!products.value || !Array.isArray(products.value)) return []
-  
-  let filtered = [...products.value]
-  
-  // กรองตามหมวดหมู่
+  if (!products.value) return []
+
+  let result = [...products.value]
+
   if (selectedCategory.value !== 'ทั้งหมด') {
-    filtered = filtered.filter((p: any) => p.category === selectedCategory.value)
+    result = result.filter(p => p.category === selectedCategory.value)
   }
-  
-  // กรองตามการค้นหา
+
   if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    filtered = filtered.filter((p: any) =>
-      p.name.toLowerCase().includes(query) ||
-      p.description.toLowerCase().includes(query)
+    const q = searchQuery.value.toLowerCase()
+    result = result.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q)
     )
   }
-  
-  return filtered
-})
 
-const resetFilters = () => {
-  searchQuery.value = ''
-  selectedCategory.value = 'ทั้งหมด'
-}
+  return result
+})
 </script>
 
 <style scoped>
-.products-page {
-  padding: 2rem 0;
+.text-muted {
+  color: var(--color-text-muted);
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-@media (min-width: 640px) {
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    padding: 0 2rem;
-  }
-}
-
-.page-title {
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--color-neutral-900);
-}
-
-.dark .page-title {
-  color: var(--color-neutral-100);
-}
-
-/* Filters */
-.filters-section {
-  margin-bottom: 2rem;
-}
-
-.search-box {
-  margin-bottom: 1rem;
-}
-
-.filter-buttons {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-/* Products Grid */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Skeleton */
-.skeleton-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .skeleton-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .skeleton-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.skeleton-card {
-  height: 380px;
-  border-radius: 1rem;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.empty-icon {
-  width: 4rem;
-  height: 4rem;
-  color: var(--color-neutral-300);
-  margin: 0 auto 1rem;
-}
-
-.dark .empty-icon {
-  color: var(--color-neutral-600);
-}
-
-.empty-text {
-  font-size: 1.125rem;
-  color: var(--color-neutral-500);
-  margin-bottom: 1.5rem;
-}
-
-/* Error State */
-.error-container {
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.error-icon {
-  width: 3rem;
-  height: 3rem;
-  color: var(--color-error-500);
-  margin: 0 auto 1rem;
-}
-
-.error-message {
-  font-size: 1rem;
-  color: var(--color-neutral-500);
-  margin-bottom: 1.5rem;
-}
-
-/* Results Info */
-.results-info {
-  text-align: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-neutral-200);
-}
-
-.dark .results-info {
-  border-top-color: var(--color-neutral-700);
-}
-
-.results-info p {
-  color: var(--color-neutral-500);
-  font-size: 0.9rem;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

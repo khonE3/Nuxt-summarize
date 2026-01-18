@@ -8,37 +8,24 @@
             <span class="logo-text">{{ appName }}</span>
           </NuxtLink>
           <p class="footer-desc">ตัวอย่างโปรเจค Nuxt 4 เวอร์ชันล่าสุด</p>
-          
+
           <!-- Social Links -->
           <div class="social-links">
-            <UButton
-              v-for="social in socialLinks"
-              :key="social.name"
-              :icon="social.icon"
-              color="neutral"
-              variant="ghost"
-              size="sm"
-              :to="social.href"
-              target="_blank"
-            />
+            <UButton v-for="social in socialLinks" :key="social.name" :icon="social.icon" color="neutral"
+              variant="ghost" size="sm" :to="social.href" :aria-label="social.name" target="_blank" />
           </div>
         </div>
-        
+
         <!-- Quick Links -->
         <div class="footer-section">
           <h4 class="footer-title">ลิงก์ด่วน</h4>
           <nav class="footer-nav">
-            <NuxtLink 
-              v-for="link in quickLinks" 
-              :key="link.to" 
-              :to="link.to"
-              class="footer-link"
-            >
+            <NuxtLink v-for="link in quickLinks" :key="link.to" :to="link.to" class="footer-link">
               {{ link.label }}
             </NuxtLink>
           </nav>
         </div>
-        
+
         <!-- Contact Info -->
         <div class="footer-section">
           <h4 class="footer-title">ติดต่อเรา</h4>
@@ -58,7 +45,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Footer Bottom -->
       <div class="footer-bottom">
         <p>&copy; {{ currentYear }} {{ appName }}. All rights reserved.</p>

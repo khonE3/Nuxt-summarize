@@ -1,58 +1,147 @@
 <template>
-  <div class="about-page">
-    <div class="container">
-      <h1 class="page-title text-responsive-lg">เกี่ยวกับเรา</h1>
+  <div class="about-page pb-20">
+    <div class="container max-w-6xl mx-auto px-4 sm:px-6 py-12">
 
-      <div class="about-content">
-        <!-- Intro Section -->
-        <section class="about-intro glass-card">
-          <h2>ยินดีต้อนรับสู่ Nuxt 4 Demo</h2>
-          <p>
-            นี่คือโปรเจคตัวอย่างที่แสดงความสามารถทั้งหมดของ Nuxt 4 เวอร์ชันล่าสุด
-            ซึ่งรวมถึงฟีเจอร์ต่างๆ เช่น Auto-imports, File-based routing, Server API,
-            และอื่นๆ อีกมากมาย
-          </p>
-        </section>
+      <!-- Header -->
+      <div class="text-center mb-16 animate-enter">
+        <h1 class="text-4xl md:text-5xl font-black mb-6">
+          Project <span class="text-gradient">Tech Stack</span>
+        </h1>
+        <p class="text-lg text-muted max-w-2xl mx-auto">
+          เว็บไซต์นี้ถูกสร้างขึ้นด้วยเทคโนโลยีล่าสุด เพื่อประสิทธิภาพสูงสุด ประสบการณ์ผู้ใช้ที่ลื่นไหล และการรองรับอนาคต
+        </p>
+      </div>
 
-        <!-- Tech Stack Section -->
-        <section class="tech-section">
-          <h2 class="section-subtitle">เทคโนโลยีที่ใช้</h2>
-          <div class="tech-grid">
-            <UCard v-for="tech in technologies" :key="tech.name" class="tech-card card-hover"
-              :ui="{ body: 'text-center p-5' }">
-              <div class="tech-icon-wrap">
-                <UIcon :name="tech.icon" class="tech-icon" />
+      <!-- Categories -->
+      <div class="space-y-12 animate-enter" style="animation-delay: 0.1s">
+
+        <!-- Core Framework -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+              <UIcon name="i-heroicons-cube" class="text-2xl" />
+            </div>
+            <h2 class="text-2xl font-bold">Core Framework</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="card-crystal p-6 flex flex-col gap-4 group hover:border-emerald-500/50 transition-colors">
+              <div class="flex items-center justify-between">
+                <UIcon name="i-simple-icons-nuxtdotjs" class="text-4xl text-emerald-500" />
+                <UBadge color="emerald" variant="subtle">v4.2.1</UBadge>
               </div>
-              <h3 class="tech-name">{{ tech.name }}</h3>
-              <p class="tech-desc">{{ tech.description }}</p>
-            </UCard>
-          </div>
-        </section>
+              <div>
+                <h3 class="font-bold text-lg">Nuxt 4</h3>
+                <p class="text-sm text-muted mt-1">The Intuitive Web Framework. Universal rendering, auto-imports, and
+                  module ecosystem.</p>
+              </div>
+            </div>
 
-        <!-- Features Detail Section -->
-        <section class="features-detail">
-          <h2 class="section-subtitle">ฟีเจอร์ที่รวมอยู่ในโปรเจคนี้</h2>
-          <div class="features-list">
-            <div v-for="(feature, index) in projectFeatures" :key="index" class="feature-item">
-              <UIcon name="i-heroicons-check-circle-solid" class="feature-check" />
-              <span>{{ feature }}</span>
+            <div class="card-crystal p-6 flex flex-col gap-4 group hover:border-emerald-500/50 transition-colors">
+              <div class="flex items-center justify-between">
+                <UIcon name="i-simple-icons-vuedotjs" class="text-4xl text-emerald-500" />
+                <UBadge color="emerald" variant="subtle">v3.5.25</UBadge>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg">Vue.js</h3>
+                <p class="text-sm text-muted mt-1">The Progressive JavaScript Framework. Reactive, component-based UI
+                  development.</p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-4 group hover:border-emerald-500/50 transition-colors">
+              <div class="flex items-center justify-between">
+                <UIcon name="i-simple-icons-typescript" class="text-4xl text-blue-500" />
+                <UBadge color="blue" variant="subtle">v5.7.2</UBadge>
+              </div>
+              <div>
+                <h3 class="font-bold text-lg">TypeScript</h3>
+                <p class="text-sm text-muted mt-1">JavaScript with syntax for types. Ensures type safety and better
+                  developer experience.</p>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- Team Section -->
-        <section class="team-section">
-          <h2 class="section-subtitle">ทีมพัฒนา</h2>
-          <UCard class="team-card" :ui="{ body: 'p-6' }">
-            <div class="team-content">
-              <UIcon name="i-heroicons-user-group-solid" class="team-icon" />
-              <p>
-                โปรเจคนี้พัฒนาโดยทีมที่มีความเชี่ยวชาญด้าน Vue.js และ Nuxt.js
-                เพื่อเป็นตัวอย่างการใช้งานที่ดีที่สุด (Best Practices) สำหรับการพัฒนาเว็บแอปพลิเคชันด้วย Nuxt 4
-              </p>
+        <!-- UI & Styling -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+              <UIcon name="i-heroicons-paint-brush" class="text-2xl" />
             </div>
-          </UCard>
+            <h2 class="text-2xl font-bold">UI & Styling</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-blue-500/50 transition-colors">
+              <UIcon name="i-heroicons-swatch" class="text-3xl text-emerald-500" /> <!-- Nuxt UI icon proxy -->
+              <div>
+                <h3 class="font-bold">Nuxt UI v4</h3>
+                <p class="text-xs text-muted mt-1">Fully styled and customizable UI library for Nuxt.</p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-blue-500/50 transition-colors">
+              <UIcon name="i-simple-icons-tailwindcss" class="text-3xl text-cyan-500" />
+              <div>
+                <h3 class="font-bold">Tailwind CSS v4</h3>
+                <p class="text-xs text-muted mt-1">A utility-first CSS framework for rapid UI development.</p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-blue-500/50 transition-colors">
+              <UIcon name="i-heroicons-photo" class="text-3xl text-purple-500" />
+              <div>
+                <h3 class="font-bold">Nuxt Image</h3>
+                <p class="text-xs text-muted mt-1">Image optimization for modern web performance.</p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-blue-500/50 transition-colors">
+              <UIcon name="i-simple-icons-sass" class="text-3xl text-pink-500" />
+              <div>
+                <h3 class="font-bold">Sass</h3>
+                <p class="text-xs text-muted mt-1">CSS with superpowers. Nested rules, variables, and mixins.</p>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <!-- State & Utils -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+              <UIcon name="i-heroicons-wrench-screwdriver" class="text-2xl" />
+            </div>
+            <h2 class="text-2xl font-bold">State & Tools</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-orange-500/50 transition-colors">
+              <UIcon name="i-heroicons-circle-stack" class="text-3xl text-yellow-500" />
+              <!-- Using generic icon for Pinia as simple-icons might not render consistently without plugin update -->
+              <div>
+                <h3 class="font-bold">Pinia</h3>
+                <p class="text-xs text-muted mt-1">The intuitive store for Vue.js. Type-safe, modular, and lightweight.
+                </p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-orange-500/50 transition-colors">
+              <UIcon name="i-simple-icons-eslint" class="text-3xl text-indigo-500" />
+              <div>
+                <h3 class="font-bold">ESLint</h3>
+                <p class="text-xs text-muted mt-1">Find and fix problems in your JavaScript code.</p>
+              </div>
+            </div>
+
+            <div class="card-crystal p-6 flex flex-col gap-3 group hover:border-orange-500/50 transition-colors">
+              <UIcon name="i-heroicons-cube-transparent" class="text-3xl text-gray-500" />
+              <div>
+                <h3 class="font-bold">Nuxt Icon</h3>
+                <p class="text-xs text-muted mt-1">100,000+ Icons via Iconify (Heroicons, Simple Icons).</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   </div>
@@ -60,264 +149,13 @@
 
 <script setup lang="ts">
 useSeoMeta({
-  title: 'เกี่ยวกับเรา - Nuxt 4 Demo',
-  description: 'เรียนรู้เกี่ยวกับโปรเจค Nuxt 4 Demo และเทคโนโลยีที่เราใช้',
-  ogTitle: 'เกี่ยวกับเรา - Nuxt 4 Demo',
+  title: 'Tech Stack - Nuxt 4 Concept',
+  description: 'Technologies and libraries used in this project'
 })
-
-const technologies = [
-  {
-    name: 'Nuxt 4',
-    icon: 'i-simple-icons-nuxtdotjs',
-    description: 'Framework ตัวใหม่ล่าสุดพร้อม auto-imports และ TypeScript'
-  },
-  {
-    name: 'Vue 3',
-    icon: 'i-simple-icons-vuedotjs',
-    description: 'Composition API และ Reactivity System ที่ทรงพลัง'
-  },
-  {
-    name: 'TypeScript',
-    icon: 'i-simple-icons-typescript',
-    description: 'Type Safety สำหรับโค้ดที่มั่นคงและบำรุงรักษาง่าย'
-  },
-  {
-    name: 'Vite',
-    icon: 'i-simple-icons-vite',
-    description: 'Build Tool ที่รวดเร็วและทันสมัย'
-  },
-  {
-    name: 'Nitro',
-    icon: 'i-heroicons-bolt-solid',
-    description: 'Server Engine ที่มีประสิทธิภาพสูง'
-  },
-  {
-    name: 'Pinia',
-    icon: 'i-simple-icons-pinia',
-    description: 'State Management ที่ใช้งานง่ายและมีประสิทธิภาพ'
-  }
-]
-
-const projectFeatures = [
-  'File-based Routing - สร้างเส้นทางอัตโนมัติจากโครงสร้างโฟลเดอร์',
-  'Auto-imports - Import components และ composables อัตโนมัติ',
-  'Server API Routes - สร้าง API endpoints ได้ง่าย',
-  'Middleware - จัดการ authentication และ authorization',
-  'Layouts - ออกแบบ layout ที่ยืดหยุ่น',
-  'Composables - Logic ที่ใช้ซ้ำได้',
-  'TypeScript Support - Type safety ตลอดทั้งโปรเจค',
-  'State Management - ใช้ Pinia สำหรับจัดการ state',
-  'Dark Mode - รองรับธีมมืดและสว่าง',
-  'SEO Optimization - เหมาะกับการทำ SEO',
-  'Image Optimization - ใช้ @nuxt/image สำหรับรูปภาพ',
-  'CSS Preprocessor - รองรับ SCSS และ Tailwind CSS',
-  'API Integration - ตัวอย่างการเรียกใช้ API',
-  'Error Handling - จัดการ error อย่างเหมาะสม',
-  'Loading States - แสดง loading state ที่สวยงาม'
-]
 </script>
 
 <style scoped>
-.about-page {
-  padding: 2rem 0;
-}
-
-.container {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .container {
-    padding: 0 1.5rem;
-  }
-}
-
-.page-title {
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  color: var(--color-neutral-900);
-}
-
-.dark .page-title {
-  color: var(--color-neutral-100);
-}
-
-.about-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-/* Intro Section */
-.about-intro {
-  text-align: center;
-  padding: 2rem;
-}
-
-.about-intro h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--color-neutral-900);
-}
-
-.dark .about-intro h2 {
-  color: var(--color-neutral-100);
-}
-
-.about-intro p {
-  color: var(--color-neutral-600);
-  line-height: 1.8;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.dark .about-intro p {
-  color: var(--color-neutral-400);
-}
-
-/* Section Subtitle */
-.section-subtitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: var(--color-neutral-900);
-}
-
-.dark .section-subtitle {
-  color: var(--color-neutral-100);
-}
-
-/* Tech Grid */
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-}
-
-@media (min-width: 640px) {
-  .tech-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 768px) {
-  .tech-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.tech-icon-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 4rem;
-  height: 4rem;
-  margin: 0 auto 0.75rem;
-  background: linear-gradient(135deg, rgba(0, 220, 130, 0.1) 0%, rgba(0, 60, 60, 0.1) 100%);
-  border-radius: 1rem;
-}
-
-.tech-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: #00dc82;
-}
-
-.tech-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--color-neutral-900);
-}
-
-.dark .tech-name {
-  color: var(--color-neutral-100);
-}
-
-.tech-desc {
-  font-size: 0.875rem;
-  color: var(--color-neutral-500);
-  line-height: 1.5;
-}
-
-/* Features List */
-.features-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-}
-
-@media (min-width: 768px) {
-  .features-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--color-neutral-50);
-  border-radius: 0.75rem;
-  transition: all 200ms ease;
-}
-
-.dark .feature-item {
-  background: var(--color-neutral-800);
-}
-
-.feature-item:hover {
-  background: rgba(0, 220, 130, 0.1);
-}
-
-.feature-check {
-  flex-shrink: 0;
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #00dc82;
-  margin-top: 0.125rem;
-}
-
-.feature-item span {
-  color: var(--color-neutral-700);
-  font-size: 0.95rem;
-  line-height: 1.5;
-}
-
-.dark .feature-item span {
-  color: var(--color-neutral-300);
-}
-
-/* Team Section */
-.team-card {
-  border-left: 4px solid #00dc82;
-}
-
-.team-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.team-icon {
-  flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  color: #00dc82;
-}
-
-.team-content p {
-  color: var(--color-neutral-600);
-  line-height: 1.8;
-  margin: 0;
-}
-
-.dark .team-content p {
-  color: var(--color-neutral-400);
+.text-muted {
+  color: var(--color-text-muted);
 }
 </style>

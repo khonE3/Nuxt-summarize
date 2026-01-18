@@ -11,9 +11,15 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
+  // SSR enabled for SSG
+  ssr: true,
+
   // App configuration
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'th'
+      },
       title: 'Nuxt 4 Complete Demo',
       meta: [
         { charset: 'utf-8' },
@@ -45,7 +51,7 @@ export default defineNuxtConfig({
   ui: {
     fonts: false, // Already using @nuxt/fonts from Nuxt UI
     theme: {
-      colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error']
+      colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error', 'white', 'black', 'emerald', 'blue', 'cyan', 'purple', 'pink', 'orange', 'indigo', 'yellow']
     }
   },
 

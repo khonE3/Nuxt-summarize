@@ -1,51 +1,51 @@
 <template>
-  <UCard class="product-card card-hover" :ui="{
-    root: 'overflow-hidden',
-    body: 'p-0'
-  }">
+  <div
+    class="card-crystal p-0 overflow-hidden flex flex-col h-full group hover:border-primary-500/50 transition-all duration-300">
     <!-- Product Image -->
-    <div class="product-image">
-      <NuxtImg :src="product.image" :alt="product.name" width="400" height="280" loading="lazy" class="product-img" />
+    <div class="relative overflow-hidden aspect-[4/3] bg-gray-100 dark:bg-gray-800">
+      <NuxtImg :src="product.image" :alt="product.name" width="400" height="300" loading="lazy"
+        sizes="100vw sm:50vw md:25vw"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
 
       <!-- Badges -->
-      <div class="badges">
-        <UBadge v-if="product.isNew" color="success" variant="solid" size="sm">
-          ใหม่
-        </UBadge>
-        <UBadge v-if="product.discount" color="error" variant="solid" size="sm">
-          -{{ product.discount }}%
-        </UBadge>
+      <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+        <UBadge v-if="product.isNew" color="primary" variant="solid" size="xs" class="shadow-lg">ใหม่</UBadge>
+        <UBadge v-if="product.discount" color="error" variant="solid" size="xs" class="shadow-lg">-{{ product.discount
+          }}%</UBadge>
+      </div>
+
+      <!-- Quick Action Overlay -->
+      <div
+        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-[2px]">
+        <UButton color="white" icon="i-heroicons-eye" size="lg" variant="solid" class="rounded-full" />
+        <UButton color="primary" icon="i-heroicons-shopping-cart" size="lg" variant="solid" class="rounded-full"
+          @click.stop="addToCart" />
       </div>
     </div>
 
-    <!-- Product Info -->
-    <div class="product-info">
-      <h3 class="product-name">{{ product.name }}</h3>
-      <p class="product-description">{{ product.description }}</p>
-
-      <!-- Price -->
-      <div class="product-price">
-        <span v-if="product.discount" class="price-old">
-          ฿{{ product.price.toLocaleString() }}
-        </span>
-        <span class="price-current">
-          ฿{{ finalPrice.toLocaleString() }}
-        </span>
+    <!-- Content -->
+    <div class="p-5 flex flex-col flex-1">
+      <div class="mb-4">
+        <div class="flex justify-between items-start mb-2">
+          <h3 class="font-bold text-lg leading-tight line-clamp-1 group-hover:text-primary-500 transition-colors">{{
+            product.name }}</h3>
+        </div>
+        <p class="text-sm text-muted line-clamp-2 h-10">{{ product.description }}</p>
       </div>
 
-      <!-- Actions -->
-      <div class="product-actions">
-        <UButton color="primary" block class="add-to-cart-btn" @click="addToCart">
-          <UIcon name="i-heroicons-shopping-cart-20-solid" class="mr-2" />
-          เพิ่มลงตะกร้า
-        </UButton>
-        <UButton :color="isInWishlist ? 'error' : 'neutral'" :variant="isInWishlist ? 'soft' : 'outline'" square
-          @click="toggleWishlist">
-          <UIcon :name="isInWishlist ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'" />
-        </UButton>
+      <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
+        <div class="flex flex-col">
+          <span v-if="product.discount" class="text-xs text-muted line-through">฿{{ product.price.toLocaleString()
+            }}</span>
+          <span class="text-lg font-bold text-primary-600 dark:text-primary-400">฿{{ finalPrice.toLocaleString()
+            }}</span>
+        </div>
+
+        <UButton :color="isInWishlist ? 'error' : 'gray'" :variant="isInWishlist ? 'solid' : 'ghost'"
+          icon="i-heroicons-heart" class="rounded-full" @click.stop="toggleWishlist" />
       </div>
     </div>
-  </UCard>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -85,102 +85,7 @@ const toggleWishlist = () => {
 </script>
 
 <style scoped>
-.product-card {
-  border-radius: 1rem;
-  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px -12px rgba(0, 220, 130, 0.2);
-}
-
-/* Image Section */
-.product-image {
-  position: relative;
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-
-}
-
-.product-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 500ms ease;
-}
-
-.product-card:hover .product-img {
-  transform: scale(1.1);
-}
-
-.badges {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  right: 0.75rem;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-/* Info Section */
-.product-info {
-  padding: 1.25rem;
-}
-
-.product-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-neutral-900);
-  margin-bottom: 0.5rem;
-  line-height: 1.4;
-}
-
-.dark .product-name {
-  color: var(--color-neutral-100);
-}
-
-.product-description {
-  font-size: 0.875rem;
-  color: var(--color-neutral-500);
-  margin-bottom: 1rem;
-  line-height: 1.5;
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Price */
-.product-price {
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.price-old {
-  text-decoration: line-through;
-  color: var(--color-neutral-400);
-  font-size: 0.875rem;
-}
-
-.price-current {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #00dc82;
-}
-
-/* Actions */
-.product-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.add-to-cart-btn {
-  flex: 1;
+.text-muted {
+  color: var(--color-text-muted);
 }
 </style>

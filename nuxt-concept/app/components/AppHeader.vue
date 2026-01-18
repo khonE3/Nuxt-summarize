@@ -5,80 +5,49 @@
       <NuxtLink to="/" class="logo">
         <span class="logo-text">{{ appName }}</span>
       </NuxtLink>
-      
+
       <!-- Desktop Navigation -->
       <nav class="nav-desktop">
-        <NuxtLink 
-          v-for="link in navLinks" 
-          :key="link.to" 
-          :to="link.to" 
-          class="nav-link"
-        >
+        <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" class="nav-link">
           {{ link.label }}
         </NuxtLink>
       </nav>
-      
+
       <!-- Actions -->
       <div class="header-actions">
         <!-- Theme Toggle -->
-        <UButton
-          :icon="colorMode.value === 'dark' ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
-          color="neutral"
-          variant="ghost"
-          size="lg"
-          @click="toggleColorMode"
-          class="theme-toggle"
-        />
-        
+        <UButton :icon="colorMode.value === 'dark' ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
+          color="neutral" variant="ghost" size="lg" aria-label="Toggle Theme" @click="toggleColorMode"
+          class="theme-toggle" />
+
         <!-- Mobile Menu Button -->
-        <UButton
-          icon="i-heroicons-bars-3-20-solid"
-          color="neutral"
-          variant="ghost"
-          size="lg"
-          class="mobile-menu-btn"
-          @click="isMobileMenuOpen = true"
-        />
+        <UButton icon="i-heroicons-bars-3-20-solid" color="neutral" variant="ghost" size="lg" aria-label="Open Menu"
+          class="mobile-menu-btn" @click="isMobileMenuOpen = true" />
       </div>
     </div>
-    
+
     <!-- Mobile Drawer -->
     <USlideover v-model:open="isMobileMenuOpen" side="right" class="mobile-drawer">
       <template #content>
         <div class="drawer-content">
           <div class="drawer-header">
             <span class="drawer-logo">{{ appName }}</span>
-            <UButton
-              icon="i-heroicons-x-mark-20-solid"
-              color="neutral"
-              variant="ghost"
-              size="lg"
-              @click="isMobileMenuOpen = false"
-            />
+            <UButton icon="i-heroicons-x-mark-20-solid" color="neutral" variant="ghost" size="lg"
+              @click="isMobileMenuOpen = false" />
           </div>
-          
+
           <nav class="drawer-nav">
-            <NuxtLink 
-              v-for="link in navLinks" 
-              :key="link.to" 
-              :to="link.to" 
-              class="drawer-link"
-              @click="isMobileMenuOpen = false"
-            >
+            <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" class="drawer-link"
+              @click="isMobileMenuOpen = false">
               <UIcon :name="link.icon" class="drawer-icon" />
               {{ link.label }}
             </NuxtLink>
           </nav>
-          
+
           <div class="drawer-footer">
-            <UButton
-              :icon="colorMode.value === 'dark' ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
-              :label="colorMode.value === 'dark' ? 'โหมดสว่าง' : 'โหมดมืด'"
-              color="neutral"
-              variant="soft"
-              block
-              @click="toggleColorMode"
-            />
+            <UButton :icon="colorMode.value === 'dark' ? 'i-heroicons-sun-20-solid' : 'i-heroicons-moon-20-solid'"
+              :label="colorMode.value === 'dark' ? 'โหมดสว่าง' : 'โหมดมืด'" color="neutral" variant="soft" block
+              @click="toggleColorMode" />
           </div>
         </div>
       </template>
